@@ -19,6 +19,13 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 
+Features
+
+Google Cloud Save
+Leaderboards
+Achievements
+Signin
+
 
 Usage
 
@@ -29,10 +36,13 @@ Usage
 
 Trouble Shooting
 
-
-*Signin doesn't work. 
+*Signin doesn't work.*
 The plugin expects google chrome in application:openUrl part. Change code there to allow any type of browser. 
 Make sure bundled, gpgappid etc are all setup properly in both project and google dev console web guy.
 
 
+Todo
+
+Add support for multiplayer matchmaking
+Add support for sharing on google+
 
