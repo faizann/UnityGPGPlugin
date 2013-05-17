@@ -1,0 +1,48 @@
+DEBUG:Params ['/Volumes/mac_hd_2/faizan/Documents/myprojects/Unity/GoogleCloudSave/UnityGPGPlugin/Assets/Editor/PostprocessBuildPlayer', '/Volumes/mac_hd_2/faizan/Documents/myprojects/Unity/GoogleCloudSave/UnityGPGPlugin/xcode', 'iPhone', '', 'DefaultCompany', 'UnityGPGPlugin', '1024', '768']
+DEBUG:Executing googleplay_xcode.py
+DEBUG:Finished script googleplay_xcode.py
+
+Adding build file PlayGameServices.bundle
+
+Adding framework file reference GooglePlus.framework
+
+Adding framework file reference GoogleOpenSource.framework
+
+Adding framework file reference PlayGameServices.framework
+
+Adding framework file reference CoreData.framework
+
+Adding framework file reference Security.framework
+
+Adding data file reference GooglePlus.bundle
+
+Adding data file reference PlayGameServices.bundle
+
+Adding build phase GooglePlus.framework
+
+Adding build phase GoogleOpenSource.framework
+
+Adding build phase PlayGameServices.framework
+
+Adding build phase CoreData.framework
+
+Adding build phase Security.framework
+
+Add group GooglePlus.bundle
+
+Add group PlayGameServices.bundle
+
+Add group GooglePlus.framework
+
+Add group GoogleOpenSource.framework
+
+Add group PlayGameServices.framework
+
+Add group CoreData.framework
+
+Add group Security.framework
+
+Adding build phase GooglePlus.bundle
+
+Adding build phase PlayGameServices.bundle
+
