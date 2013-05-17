@@ -2,6 +2,7 @@ UnityGPGPlugin
 ==============
 
 Unity3D Google Play Services Plugin
+
 Copyright (C) 2011 Nerdiacs Pte Limited  http://www.Nerdiacs.com
 
 This library is free software; you can redistribute it and/or
