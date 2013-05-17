@@ -48,6 +48,19 @@ Make sure bundled, gpgappid etc are all setup properly in both project and googl
 There is PostBuildProcess script that adds frameworks and configures the overall project. Try removing that and add frameworks/bundles yourself using googleplay docs
 Use the quickstart guide link https://developers.google.com/games/services/ios/quickstart for more information
 
+### Conflicts with other plugins
+* If there is another PostBuildProcess from another plugin (facebook etc) then chain script from this one so that it runs as well.
+* The postbuildprocess patches AppController.m file by adding handler for google signin
+
+```objc
+(BOOL)application:(UIApplication *)application
+             openURL:(NSURL *)url
+   sourceApplication:(NSString *)sourceApplication
+          annotation:(id)annotation 
+```
+
+This might conflict with facebook and you would need to remove the patch from PostBuildProcess and add this code manually each time project is generated. You coud also make a combined patch for google and other plugins.
+
 
 ## TODO
 
