@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 ## Features
-
+* Support iOS only. Android coming up later
 * Google Cloud Save
 * Leaderboards
 * Achievements
@@ -66,4 +66,4 @@ This might conflict with facebook and you would need to remove the patch from Po
 
 * Add support for multiplayer matchmaking
 * Add support for sharing on google+
-
+* Add support for Android
