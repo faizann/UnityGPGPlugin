@@ -1,7 +1,7 @@
 UnityGPGPlugin
 ==============
 
-Unity3D Google Play Services Plugin
+Unity3D Google Play Game Services Plugin
 
 Copyright (C) 2011 Nerdiacs Pte Limited  http://www.Nerdiacs.com
 
