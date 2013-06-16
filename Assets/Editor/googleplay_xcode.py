@@ -4,8 +4,8 @@ import sys,os,plistlib
 
 
 # settings
-bundleId = "com.nerdiacs.BUNDLEID"
-gpgAppId = "GPGAPP_ID"
+bundleId = "com.nerdiacs.testapp"
+gpgAppId = "YOUR_GOOGLEPLAY_SERVICES_APPID"
 
 xcode_proj_path = sys.argv[1]
 target = sys.argv[2]
