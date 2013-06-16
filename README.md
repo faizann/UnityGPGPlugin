@@ -76,10 +76,11 @@ The code after this should compile fine.
 *AndroidManifest.xml and strings.xml (in res) directories are modified by PostBuildProcess.
 * Check if AndroidManifest.xml has following entries inside application tag 
 ```xml
- <meta-data ns0:name="com.google.android.gms.games.APP_ID" ns0:value="@string/app_id" />
- <meta-data ns0:name="com.google.android.gms.appstate.APP_ID" ns0:value="@string/app_id" />
- <activity ns0:label="@string/app_name" ns0:name="com.nerdiacs.nerdgpgplugin.DummyActivity" /> 
+<meta-data ns0:name="com.google.android.gms.games.APP_ID" ns0:value="@string/app_id" />
+<meta-data ns0:name="com.google.android.gms.appstate.APP_ID" ns0:value="@string/app_id" />
+<activity ns0:label="@string/app_name" ns0:name="com.nerdiacs.nerdgpgplugin.DummyActivity" /> 
 ```
+
 * Check if strings.xml has correct googleplay appid with following tag in resources
 ```xml
 <string name="app_id">YOURAPP_ID</string>
