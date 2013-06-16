@@ -97,4 +97,3 @@ The code after this should compile fine.
 
 * Add support for multiplayer matchmaking
 * Add support for sharing on google+
-* Add support for Android
