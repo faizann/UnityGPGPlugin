@@ -1,0 +1,1 @@
+Code is moved to Editor as Unity only wants jar files here. You can create a lib out of the nerdgpgplugin code and put it here for direct inclusion. Remove the code from Editor directory for android.
