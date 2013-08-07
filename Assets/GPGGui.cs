@@ -11,7 +11,8 @@ public class GPGGui : MonoBehaviour {
 	
 	
 	// you can have upto 4 keys range 0-3
-	private string clientId = "672123569628.apps.googleusercontent.com";
+	// 12 digit APPID
+	private string clientId = "APP_ID.apps.googleusercontent.com";
 	
 	private string testLeaderBoard = "CgkI3Iu_7ccTEAIQBg";
 	private string testAchievement = "CgkI3Iu_7ccTEAIQAg";
