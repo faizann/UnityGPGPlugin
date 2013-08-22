@@ -62,6 +62,7 @@ Use the quickstart guide link https://developers.google.com/games/services/ios/q
 This might conflict with facebook and you would need to remove the patch from PostBuildProcess and add this code manually each time project is generated. You coud also make a combined patch for google and other plugins.
 
 ## Usage for Android
+### Building with Eclipse for Unity version 4.0 or earlier
 
 * Setup SDK google play sdk as per instructions for Eclipse. Do not update ADT to version 2.2 but keep it upto 2.1. This is because at the time of writing this readme Unity is unable to create eclipse projects with ADT 2.2
 http://developer.android.com/google/play-services/setup.html
@@ -71,6 +72,16 @@ http://developer.android.com/google/play-services/setup.html
 * Add google_play_services_lib to the project as library in Android settings.
 ![Eclipse Settings](AndroidEclipseSettings.png)
 The code after this should compile fine. 
+
+### Building with Android Studio for Unity version 4.2 or later
+
+* Setup Android Google Play Game Servies SDK from Tools/Android support plugins.
+* The PostBuild script at the time of writing this doc doesn't work with Android Studio. Hence you have to manually modify manifest file and strings.xml file as per section Troubleshooting
+* Export Android Studio project from Unity and import it into Android Studio. This is simple process.
+* Add google gameplay services jar file to libraries of your Module. ![GPG Library](AndroidStudioGPG0.png)
+* Add google gameplay services directory from extra's folder of SDK as module to project. ![GPG Module](AndroidStudioGPG3.png)
+* Make Google gameplay services jar and module as dependency for your module. In our case it is UnityGPGPlugin sample. ![Dependencies](AndroidStudioGPG2.png)
+The code after this should compile fine and allow normal functionality.
 
 ## Troubleshooting
 *AndroidManifest.xml and strings.xml (in res) directories are modified by PostBuildProcess.
