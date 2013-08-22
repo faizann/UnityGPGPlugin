@@ -10,8 +10,10 @@
 xcode
 *.DS_Store
 *.pidb
-Eclipse*
+Eclipse
+eclipse*
 GooglePlaySDKs
 *.userprefs
 ProjectSettings
 *.log
+AndroidProject
