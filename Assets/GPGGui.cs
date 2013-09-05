@@ -16,6 +16,8 @@ public class GPGGui : MonoBehaviour {
 	
 	private string testLeaderBoard = "CgkI3Iu_7ccTEAIQBg";
 	private string testAchievement = "CgkI3Iu_7ccTEAIQAg";
+	private string testIncAchievement = "CgkI3Iu_7ccTEAIQCg";
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -65,7 +67,8 @@ public class GPGGui : MonoBehaviour {
 			// we are logged in. we can do leaderboard and achievement and cloud stuff
 			if(GUILayout.Button("GPG_ShowAllLeaderBoards", GUILayout.Height(60))) {
 				//NerdGPG.GPG_ShowAllLeaderBoards();
-				NerdGPG.Instance().showAllLeaderBoards();
+				//NerdGPG.Instance().showAllLeaderBoards();
+				NerdGPG.Instance().loadAchievements(true);
 			}
 			if(GUILayout.Button("GPG_ShowLeaderBoards", GUILayout.Height(60))) {
 				//NerdGPG.GPG_ShowLeaderBoards(testLeaderBoard);
@@ -83,7 +86,8 @@ public class GPGGui : MonoBehaviour {
 			}
 			if(GUILayout.Button("GPG_UnlocAchievement", GUILayout.Height(60))) {
 			//	NerdGPG.GPG_UnlocAchievement(testAchievement);
-				NerdGPG.Instance().unlockAchievement(testAchievement);
+				//NerdGPG.Instance().unlockAchievement(testAchievement);
+				NerdGPG.Instance().incrementAchievement(testIncAchievement,1);
 			}
 		GUILayout.EndHorizontal();
 		GUILayout.BeginHorizontal();	
@@ -165,11 +169,32 @@ public class GPGGui : MonoBehaviour {
 	
 	public void OnGPGUnlockAchievementResult(string result)
 	{
-		Debug.Log("OnGPGUnlockAchievementResult "+result);
+		Debug.Log("OnGPGUnlockAchievementResult: "+result);
 	}
 	
 	public void OnGPGSubmitScoreResult(string result)
 	{
-		Debug.Log("OnGPGSubmitScoreResult "+result);
+		Debug.Log("OnGPGSubmitScoreResult: " + result);
+	}
+	
+	public void OnAchievementsLoaded(string result) {
+		// Result is a multiline string with new line terminating character for each achievement
+		// format of string is
+		// achievementId;name;type;description;state;totalSteps;currentSteps
+		// for more information look at 
+		// https://developer.android.com/reference/com/google/android/gms/games/achievement/Achievement.html
+		/* code from java
+		String sach = ach.getAchievementId()+";"+ach.getName()+";"+ach.getType()+";"
+                                +ach.getDescription()+";"+ach.getState()+";"+totSteps+";"
+                                +currentSteps;
+
+                        achs = achs + sach +"\n";
+		*/
+		
+		Debug.Log("OnAchievementsLoaded: " + result);
+	}
+	
+	public void OnAchievementsLoadFailed(string result) {
+		Debug.Log("OnAchievementsLoadFailed: " + result);
 	}
 }

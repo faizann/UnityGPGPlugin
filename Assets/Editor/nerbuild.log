@@ -1,8 +1,0 @@
-DEBUG:Params ['/Volumes/mac_hd_2/faizan/Documents/myprojects/Unity/GoogleCloudSave/UnityGPGPlugin/Assets/Editor/PostprocessBuildPlayer', '/Volumes/mac_hd_2/faizan/Documents/myprojects/Unity/GoogleCloudSave/UnityGPGPlugin/Eclipse', 'android', '', 'DefaultCompany', 'UnityGPGPlugin', '1024', '768']
-DEBUG:Executing googleplay_xcode.py
-DEBUG:Finished script googleplay_xcode.py
-DEBUG:Executing googleplay_eclipse.py
-DEBUG:Finished script googleplay_eclipse.py
-xists. Adding subdirs to path
-Copynig /Volumes/mac_hd_2/faizan/Documents/myprojects/Unity/GoogleCloudSave/UnityGPGPlugin/Assets/Editor/googleplay_data/android_code/com/nerdiacs/nerdgpgplugin to /Volumes/mac_hd_2/faizan/Documents/myprojects/Unity/GoogleCloudSave/UnityGPGPlugin/Eclipse/src/com/nerdiacs/nerdgpgplugin
-

@@ -143,6 +143,23 @@ public class NerdGPG : MonoBehaviour {
 #endif
 	}
 	
+	public void loadAchievements(bool bForceReload=false) {
+#if UNITY_IPHONE
+		Debug.LogWarning("Method loadAchievements not implemented for iOS");
+#elif UNITY_ANDROID
+		mNerdGPG.Call("loadAchievements",bForceReload);
+#endif
+	}
+	
+	public void incrementAchievement(string achievementId, int numSteps) {
+#if UNITY_IPHONE
+		Debug.LogWarning("Method loadAchievements not implemented for iOS");
+#elif UNITY_ANDROID
+		mNerdGPG.Call("incrementAchievement",achievementId,numSteps);
+#endif
+	}
+	
+	
 	public void saveToCloud(int keyNum, byte[] bytes)
 	{
 		if(bytes==null || bytes.Length<1) {
@@ -263,6 +280,7 @@ public class NerdGPG : MonoBehaviour {
 #endif 
 	}
 	
+
 #endregion	// PUBLIC_API
 	
 	
