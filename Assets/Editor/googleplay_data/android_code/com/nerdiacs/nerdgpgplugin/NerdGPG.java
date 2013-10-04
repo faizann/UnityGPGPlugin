@@ -15,6 +15,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.util.Base64;
+import android.content.Context;
+import android.app.Dialog;
+import android.app.*;
+import android.app.AlertDialog.*;
 
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.appstate.OnStateLoadedListener;
@@ -24,13 +28,17 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.games.OnSignOutCompleteListener;
+import com.google.android.gms.games.achievement.Achievement;
+import com.google.android.gms.games.achievement.AchievementBuffer;
+import com.google.android.gms.games.achievement.OnAchievementUpdatedListener;
+import com.google.android.gms.games.achievement.OnAchievementsLoadedListener;
 import com.google.android.gms.games.multiplayer.Invitation;
 import com.google.android.gms.plus.PlusClient;
 import com.unity3d.player.UnityPlayer;
 
 
 public class NerdGPG implements GooglePlayServicesClient.ConnectionCallbacks,
-GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener, OnStateLoadedListener {
+GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener, OnStateLoadedListener, OnAchievementUpdatedListener {
 
 	private static String TAG = "NerdGPG";
 	
@@ -97,7 +105,8 @@ GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener, 
 
     // Are we signed in?
     boolean mSignedIn = false;
-    
+
+    AchievementBuffer mAchievements = null;
     // If we got an invitation id when we connected to the games client, it's
     // here.
     // Otherwise, it's null.
@@ -109,8 +118,18 @@ GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener, 
     	debugLog("ParentActivity name is " + mParentActivity.getClass().getName());
     	
     }
+    public static void showOkDialogWithText(Context context, String messageText)
+    {
+        Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(messageText);
+        builder.setCancelable(true);
+        builder.setPositiveButton("OK", null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
-	public boolean init(final Activity activity) {
+    static int gErrCode = 0;
+    public boolean init(final Activity activity) {
 		if(activity==null) {
 			Log.d(TAG, "ParentActivity handle required");
 			return false; // 
@@ -118,6 +137,32 @@ GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener, 
 		
 		mParentActivity = activity;	
 		debugLog("ParentActivity name is " + mParentActivity.getClass().getName());
+       gErrCode =GooglePlayServicesUtil.isGooglePlayServicesAvailable(activity);
+        if(gErrCode!=ConnectionResult.SUCCESS) {
+            // we need to download proper google play services apk
+            debugLog("Googleplay services not found or version wrong "+ gErrCode);
+            UnityPlayer.currentActivity.runOnUiThread(new Runnable() {
+                public void run() {
+                    Dialog dialog = GooglePlayServicesUtil.getErrorDialog(gErrCode, activity, 69);
+
+                    if(dialog != null)
+                    {
+                        dialog.show();
+                    }
+                    else
+                    {
+                        // Note: Handle this for failure
+
+                        //showOkDialogWithText(getApplicationContext(), "Something went wrong. Please make sure that you have the Play Store installed and that you are connected to the internet. Contact developer with details if this persists.");
+                        Log.d("GooglePlayServicesUtil", "Null dialog");
+                    }
+                }
+
+            });
+            return false;
+        }
+
+
         mRequestedClients = CLIENT_ALL; // connect all client types
  		// set scopes
 		Vector<String> scopesVector = new Vector<String>();
@@ -188,7 +233,76 @@ GooglePlayServicesClient.OnConnectionFailedListener, OnSignOutCompleteListener, 
 			return;
 		mGamesClient.unlockAchievement(achievementId);
 	}
-	
+
+    public void incrementAchievement(String achievementId, int numSteps){
+        if(!mSignedIn)
+            return;
+
+        mGamesClient.incrementAchievement(achievementId,numSteps);
+    }
+
+    public void incrementAchievementImmediate(String achievementId, int numSteps){
+        if(!mSignedIn)
+            return;
+        mGamesClient.incrementAchievementImmediate(this,achievementId, numSteps);
+    }
+
+    @Override
+    public void onAchievementUpdated(int i, String s) {
+                if(i==com.google.android.gms.games.GamesClient.STATUS_OK)
+                    debugLog("Achievement sync success");
+                else
+                    debugLog("Achievement sync failed with code "+i);
+    }
+
+    public void loadAchievements(boolean bForceReload) {
+        mGamesClient.loadAchievements(new OnAchievementsLoadedListener() {
+            @Override
+            public void onAchievementsLoaded(int i, AchievementBuffer achievements) {
+                if(i == com.google.android.gms.games.GamesClient.STATUS_OK) {
+                    String achs=null;
+                    for(int a=0; a<achievements.getCount(); a++) {
+                        Achievement ach = achievements.get(a);
+                        debugLog("Achievement name " + ach.getName() + " type " + ach.getType() +" state "+ach.getState());
+                        String totSteps = "0", currentSteps = "0";
+                        if(ach.getType()==Achievement.TYPE_INCREMENTAL)
+                        {
+                            totSteps = ""+ach.getTotalSteps();
+                            currentSteps = ""+ ach.getCurrentSteps();
+                        }
+
+                        String sach = ach.getAchievementId()+";"+ach.getName()+";"+ach.getType()+";"
+                                +ach.getDescription()+";"+ach.getState()+";"+totSteps+";"
+                                +currentSteps;
+
+                        achs = achs + sach +"\n";
+                    }
+                    UnitySendMessageSafe("OnAchievementsLoaded",achs);
+                } else {
+                    String result = null;
+                    switch(i) {
+                        case com.google.android.gms.games.GamesClient.STATUS_NETWORK_ERROR_NO_DATA:
+                            result = "STATUS_NETWORK_ERROR_NO_DATA";
+                            break;
+                        case com.google.android.gms.games.GamesClient.STATUS_NETWORK_ERROR_STALE_DATA:
+                            result = "STATUS_NETWORK_ERROR_STALE_DATA";
+                            break;
+                        case com.google.android.gms.games.GamesClient.STATUS_CLIENT_RECONNECT_REQUIRED:
+                            result = "STATUS_CLIENT_RECONNECT_REQUIRED";
+                            break;
+                        case com.google.android.gms.games.GamesClient.STATUS_LICENSE_CHECK_FAILED:
+                            result = "STATUS_LICENSE_CHECK_FAILED";
+                            break;
+                        case com.google.android.gms.games.GamesClient.STATUS_INTERNAL_ERROR:
+                            result = "STATUS_INTERNAL_ERROR";
+                            break;
+                    }
+                    UnitySendMessageSafe("OnAchievementsLoadFailed",result);
+                }
+            }
+        }, bForceReload);
+    }
+
 	public void saveToCloud(int keyNum, String bytes) {
 		debugLog("Length of bytes received "+bytes.length());
 		//byte[] data = Base64.decode(bytes,)
