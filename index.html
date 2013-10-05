@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Unitygpgplugin by faizann</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Unitygpgplugin</h1>
+        <h2>Unity3D Google Play Services Plugin</h2>
+        <a href="https://github.com/faizann/UnityGPGPlugin" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="unitygpgplugin" class="anchor" href="#unitygpgplugin"><span class="octicon octicon-link"></span></a>UnityGPGPlugin</h1>
+
+<p>Unity3D Google Play Game Services Plugin</p>
+
+<p>Copyright (C) 2011 Nerdiacs Pte Limited  <a href="http://www.Nerdiacs.com">http://www.Nerdiacs.com</a></p>
+
+<p>This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 3.0 of the License, or (at your option) any later version.</p>
+
+<p>This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.</p>
+
+<p>You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA</p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Support iOS and Android</li>
+<li>Google Cloud Save</li>
+<li>Leaderboards</li>
+<li>Achievements</li>
+<li>Signin</li>
+</ul><h2>
+<a name="usage-for-ios" class="anchor" href="#usage-for-ios"><span class="octicon octicon-link"></span></a>Usage for iOS</h2>
+
+<ul>
+<li>Read the iOS SDK docs to understand how all fits in. <a href="https://developers.google.com/games/services/ios/quickstart">https://developers.google.com/games/services/ios/quickstart</a>
+</li>
+<li>On first usage, run bootstrap.sh to download the necessary SDKs. If newer SDKs are available than the one in bootstrap then download those and rename paths in Assets/Editor/googleplay_xcode.py.</li>
+<li>Setup GooglePlayAppID and bundleId of your app/game in googleplay_xcode.</li>
+<li>To test the sample App, in GCGui.cs file setup clientId from googleplay and rest of leaderboardip.</li>
+<li>Run and build app on ipad. click on Init GPG before doing anything else. Try silentSignin and if it fails it will display SignIn button. Use that to do proper auto with switching.</li>
+</ul><h2>
+<a name="trouble-shooting" class="anchor" href="#trouble-shooting"><span class="octicon octicon-link"></span></a>Trouble Shooting</h2>
+
+<h3>
+<a name="signin-doesnt-work" class="anchor" href="#signin-doesnt-work"><span class="octicon octicon-link"></span></a>Signin doesn't work</h3>
+
+<p>The plugin expects google chrome in application:openUrl part. Change code there to allow any type of browser. 
+Make sure bundled, gpgappid etc are all setup properly in both project and google dev console web guy.</p>
+
+<h3>
+<a name="xcode-project-corrupted" class="anchor" href="#xcode-project-corrupted"><span class="octicon octicon-link"></span></a>Xcode Project Corrupted</h3>
+
+<p>There is PostBuildProcess script that adds frameworks and configures the overall project. Try removing that and add frameworks/bundles yourself using googleplay docs
+Use the quickstart guide link <a href="https://developers.google.com/games/services/ios/quickstart">https://developers.google.com/games/services/ios/quickstart</a> for more information</p>
+
+<h3>
+<a name="conflicts-with-other-plugins" class="anchor" href="#conflicts-with-other-plugins"><span class="octicon octicon-link"></span></a>Conflicts with other plugins</h3>
+
+<ul>
+<li>If there is another PostBuildProcess from another plugin (facebook etc) then chain script from this one so that it runs as well.</li>
+<li>The postbuildprocess patches AppController.m file by adding handler for google signin</li>
+</ul><div class="highlight highlight-objc"><pre><span class="p">(</span><span class="kt">BOOL</span><span class="p">)</span><span class="n">application</span><span class="o">:</span><span class="p">(</span><span class="n">UIApplication</span> <span class="o">*</span><span class="p">)</span><span class="n">application</span>
+             <span class="nl">openURL:</span><span class="p">(</span><span class="n">NSURL</span> <span class="o">*</span><span class="p">)</span><span class="n">url</span>
+   <span class="nl">sourceApplication:</span><span class="p">(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">sourceApplication</span>
+          <span class="nl">annotation:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="n">annotation</span> 
+</pre></div>
+
+<p>This might conflict with facebook and you would need to remove the patch from PostBuildProcess and add this code manually each time project is generated. You coud also make a combined patch for google and other plugins.</p>
+
+<h2>
+<a name="usage-for-android" class="anchor" href="#usage-for-android"><span class="octicon octicon-link"></span></a>Usage for Android</h2>
+
+<h3>
+<a name="building-with-eclipse-for-unity-version-40-or-earlier" class="anchor" href="#building-with-eclipse-for-unity-version-40-or-earlier"><span class="octicon octicon-link"></span></a>Building with Eclipse for Unity version 4.0 or earlier</h3>
+
+<ul>
+<li>Setup SDK google play sdk as per instructions for Eclipse. Do not update ADT to version 2.2 but keep it upto 2.1. This is because at the time of writing this readme Unity is unable to create eclipse projects with ADT 2.2
+<a href="http://developer.android.com/google/play-services/setup.html">http://developer.android.com/google/play-services/setup.html</a>
+</li>
+<li>Replace YOUR_GOOGLEPLAY_APPID in googleplay_eclipse.py with your APPID from GooglePlay Console. Hint: It is a 12 digit number.</li>
+<li>In Unity Build settings select export project to eclipse and build.</li>
+<li>In Eclipse refresh the project in case it was already open.</li>
+<li>Add google_play_services_lib to the project as library in Android settings.
+<img src="AndroidEclipseSettings.png" alt="Eclipse Settings">
+The code after this should compile fine. </li>
+</ul><h3>
+<a name="building-with-android-studio-for-unity-version-42-or-later" class="anchor" href="#building-with-android-studio-for-unity-version-42-or-later"><span class="octicon octicon-link"></span></a>Building with Android Studio for Unity version 4.2 or later</h3>
+
+<ul>
+<li>Setup Android Google Play Game Servies SDK from Tools/Android support plugins.</li>
+<li>The PostBuild script at the time of writing this doc doesn't work with Android Studio. Hence you have to manually modify manifest file and strings.xml file as per section Troubleshooting</li>
+<li>Export Android Studio project from Unity and import it into Android Studio. This is simple process.</li>
+<li>Add google gameplay services jar file to libraries of your Module. <img src="AndroidStudioGPG0.png" alt="GPG Library">
+</li>
+<li>Add google gameplay services directory from extra's folder of SDK as module to project. <img src="AndroidStudioGPG3.png" alt="GPG Module">
+</li>
+<li>Make Google gameplay services jar and module as dependency for your module. In our case it is UnityGPGPlugin sample. <img src="AndroidStudioGPG2.png" alt="Dependencies">
+The code after this should compile fine and allow normal functionality.</li>
+</ul><h2>
+<a name="troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
+
+<p>*AndroidManifest.xml and strings.xml (in res) directories are modified by PostBuildProcess.</p>
+
+<ul>
+<li>
+<p>Check if AndroidManifest.xml has following entries inside application tag </p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;meta-data</span> <span class="na">ns0:name=</span><span class="s">"com.google.android.gms.games.APP_ID"</span> <span class="na">ns0:value=</span><span class="s">"@string/app_id"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;meta-data</span> <span class="na">ns0:name=</span><span class="s">"com.google.android.gms.appstate.APP_ID"</span> <span class="na">ns0:value=</span><span class="s">"@string/app_id"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;activity</span> <span class="na">ns0:label=</span><span class="s">"@string/app_name"</span> <span class="na">ns0:name=</span><span class="s">"com.nerdiacs.nerdgpgplugin.DummyActivity"</span> <span class="nt">/&gt;</span> 
+</pre></div>
+</li>
+<li>
+<p>Check if strings.xml has correct googleplay appid with following tag in resources</p>
+
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">"app_id"</span><span class="nt">&gt;</span>YOURAPP_ID<span class="nt">&lt;/string&gt;</span>
+</pre></div>
+</li>
+<li><p>In case you get issues, try to compile and run one googleplay services sample CollectAllStars. It will explain how project needs to be setup.</p></li>
+</ul><h2>
+<a name="known-issues" class="anchor" href="#known-issues"><span class="octicon octicon-link"></span></a>Known Issues</h2>
+
+<ul>
+<li>Conflict resolution for both iOS and Android is very basic. It automatically selects localData as resolvedData and overrides whatever is received from cloud. Best way is to always load data at start of app before trying to store. This would sync the data properly.</li>
+<li>512k of mem is always allocated for clouddata in Mono (iOS) and Java (Android). It will be changed once I figure out a better way to pass around byte arrays in java.</li>
+</ul><h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>Add support for multiplayer matchmaking</li>
+<li>Add support for sharing on google+</li>
+</ul>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/faizann/UnityGPGPlugin/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/faizann/UnityGPGPlugin/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/faizann/UnityGPGPlugin"></a> is maintained by <a href="https://github.com/faizann">faizann</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
