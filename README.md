@@ -22,6 +22,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 ## Features
 * Support iOS and Android
+* Integrates with Unity's Social API
+* Works with the official Facebook SDK
 * Google Cloud Save
 * Leaderboards
 * Achievements
@@ -62,29 +64,18 @@ Use the quickstart guide link https://developers.google.com/games/services/ios/q
 This might conflict with facebook and you would need to remove the patch from PostBuildProcess and add this code manually each time project is generated. You coud also make a combined patch for google and other plugins.
 
 ## Usage for Android
-### Building with Eclipse for Unity version 4.0 or earlier
 
-* Setup SDK google play sdk as per instructions for Eclipse. Do not update ADT to version 2.2 but keep it upto 2.1. This is because at the time of writing this readme Unity is unable to create eclipse projects with ADT 2.2
-http://developer.android.com/google/play-services/setup.html
-* Replace YOUR_GOOGLEPLAY_APPID in googleplay_eclipse.py with your APPID from GooglePlay Console. Hint: It is a 12 digit number.
-* In Unity Build settings select export project to eclipse and build.
-* In Eclipse refresh the project in case it was already open.
-* Add google_play_services_lib to the project as library in Android settings.
-![Eclipse Settings](AndroidEclipseSettings.png)
-The code after this should compile fine. 
+Import the package
 
-### Building with Android Studio for Unity version 4.2 or later
+Open NerdGPG.cs and specify the appID of your game (you get this online on the google play games console).
 
-* Setup Android Google Play Game Servies SDK from Tools/Android support plugins.
-* The PostBuild script at the time of writing this doc doesn't work with Android Studio. Hence you have to manually modify manifest file and strings.xml file as per section Troubleshooting
-* Export Android Studio project from Unity and import it into Android Studio. This is simple process.
-* Add google gameplay services jar file to libraries of your Module. ![GPG Library](AndroidStudioGPG0.png)
-* Add google gameplay services directory from extra's folder of SDK as module to project. ![GPG Module](AndroidStudioGPG3.png)
-* Make Google gameplay services jar and module as dependency for your module. In our case it is UnityGPGPlugin sample. ![Dependencies](AndroidStudioGPG2.png)
-The code after this should compile fine and allow normal functionality.
+In the editor, you should see a menu at the top called "Nerdiacs". Press Nerdiacs->UpdateGPGFiles.
+
+If console doesnt report any errors, it means your game is perfectly setup . enjoy :).
 
 ## Troubleshooting
-*AndroidManifest.xml and strings.xml (in res) directories are modified by PostBuildProcess.
+* Recheck  you followed the instructions correctly
+
 * Check if AndroidManifest.xml has following entries inside application tag 
 ```xml
 <meta-data ns0:name="com.google.android.gms.games.APP_ID" ns0:value="@string/app_id" />
@@ -92,12 +83,11 @@ The code after this should compile fine and allow normal functionality.
 <activity ns0:label="@string/app_name" ns0:name="com.nerdiacs.nerdgpgplugin.DummyActivity" /> 
 ```
 
-* Check if strings.xml has correct googleplay appid with following tag in resources
+* Check if plugins/android/res/nerdiacs.xml has correct googleplay appid with following tag in resources
 ```xml
 <string name="app_id">YOURAPP_ID</string>
 ```
 
-* In case you get issues, try to compile and run one googleplay services sample CollectAllStars. It will explain how project needs to be setup.
 
 ## Known Issues
 
