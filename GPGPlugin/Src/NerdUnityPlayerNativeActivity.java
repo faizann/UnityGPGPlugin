@@ -23,7 +23,7 @@ public class NerdUnityPlayerNativeActivity extends UnityPlayerNativeActivity
     {
         Log.d(TAG, (new StringBuilder()).append("onActivityResult: requestCode: ").append(requestCode).append(", resultCode:").append(resultCode).append(" intent data: ").append(data.toString()).toString());
         super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode != 9002 || requestCode != 9001)
+		if (requestCode != 9002 && requestCode != 9001)
 		{
 			Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 		}

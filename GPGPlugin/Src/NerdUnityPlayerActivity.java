@@ -25,7 +25,7 @@ public class NerdUnityPlayerActivity extends UnityPlayerActivity
 		
         super.onActivityResult(requestCode, resultCode, data);
 		
-		if (requestCode != 9002 || requestCode != 9001)
+		if (requestCode != 9002 && requestCode != 9001)
 		{
 			Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 		}
